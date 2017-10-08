@@ -1,2 +1,2 @@
-# alkfejl2017
-Alkalmazások fejlesztése beadandó
+# Alkalmazások fejlesztése beadandó
+Alkalmazások fejlesztése beadandó leírása
