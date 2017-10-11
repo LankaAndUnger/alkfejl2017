@@ -23,4 +23,4 @@ Itt láthatjuk az eddigi kölcsönzéseinket, illetve itt tudjuk megváltoztatni
 Admin esetén érhető el ez az oldal. Itt láthatjuk az összes eddigi kölcsönzést egy táblázatban. Lehetőségünk nyílik szűrni a táblában márka, felhasználó és bérlési idő szerint. A már lejárt kölcsönzések más színnel jelennek meg a táblázatban. Egy kölcsönzést kiválasztva tudjuk lezárni azt. Ilyenkor a sima felhasználó a Profil oldalán láthatja, hogy mennyibe került az adott kölcsönzése.
 
 ## Adatbázis terv
-![Adatbázis terv](https://user-images.githubusercontent.com/32617074/31320238-7605204e-ac71-11e7-9df0-54a7da59d71d.png)
+![Adatbázis terv](https://user-images.githubusercontent.com/32617074/31457195-543d46b0-aebc-11e7-895b-16f6374421f4.png)
