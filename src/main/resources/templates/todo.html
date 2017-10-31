@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <h1>Todo lista</h1>
+        <form method="post"
+              th:action="@{/addtodo}"
+              th:object="${newTodo}">
+            Todo szövege:
+            <input type="text" th:field="${newTodo.text}" />
+            Mikorra:
+            <input type="date" th:field="${newTodo.dueTo}" />
+            <input type="submit" />
+        </form>
+        <li th:each="todo : ${todos}">
+            <span th:text="${todo.text}"></span>
+            (<span th:text="${todo.dueTo}"></span>)
+            <ul>
+                <li th:each="comment : ${todo.commentList}">
+                    <span th:text="${comment.text}"></span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</body>
+</html>
