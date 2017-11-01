@@ -17,3 +17,9 @@ A project könyvtárstruktúrája a fenti képen látható. A programunk az MVC 
 
 ## Végpont tervek és leírások
 A *controller* packageben levő osztályok minden metódusa felett van egy @RequestMapping annotáció, amiben meghatározom a végpont nevét. Ebben a projektben ez úgy épül fel, hogy a regisztráció és a bejelentkezés az */auth/{page}* végponton vannak rajta. Itt a *page* az vagy a *login* vagy pedig a *registration*. Azoknak a metódusoknak amik a megjelenítéshez szolgálnak adatokat */r/{page}* végpontokat kapnak (Ha például a kölcsönzéseket akarjuk megnézni akkor a *page* ez esetben *rentals*, ha a profilunkat akarjuk megnézni akkor *profile*). Azok a metódusok pedig amik adatokat dolgoznak fel (pl kölcsönzés, regisztráció) */api* kezdetű végpontokon vannak.
+
+## Egy végpont működésének leírása
+### Regisztráció
+![szekvencia](https://user-images.githubusercontent.com/32617074/32300041-18fa0bea-bf58-11e7-8327-26bed113758f.png)
+
+Miután a felhasználó kitöltötte a formot és elküldte azt, a */api/registration* végpontra érkezik meg a kérés. Itt begyűjtjük a beérkező adatokat és átadjuk a UserService *createUser* metódusának. Ebben az osztályban fognak végrehajtódni az adatok validációja és az adatbázisba mentés. Miután megkapta a service osztály az adatokat levalidálja őket. Ha valamelyik adat hibás a metódus visszatérési értéke *false*. Ha minden adat helyes akkor létrehozunk egy új User entitást, kitöltjük az adatait és elmentjük az adatbázisba. Ha nem sikerül a mentés akkor a metódus visszatérési értéke *false*. Ha az adatok helyesek voltak, és sikerült elmenteni az adatbázisba is akkor a visszatérési érték *true*. Ezután a controller, ahova beérkezett a kérés tájékoztatja a felhasználót a folyamat végeredményéről.
