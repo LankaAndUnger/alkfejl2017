@@ -18,9 +18,9 @@ public class VehicleController {
 
     @Role({User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/r/vehicles", method = RequestMethod.GET)
-    public String getVehicles() {
+    public List<Vehicle> getVehicles() {
         List<Vehicle> vehicles = vehicleService.getAllVehicles();
-        return "get all vehicles";
+        return vehicles;
     }
 
     @Role(User.Role.ADMIN)

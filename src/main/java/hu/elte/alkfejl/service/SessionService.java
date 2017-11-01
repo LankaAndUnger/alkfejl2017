@@ -16,6 +16,10 @@ public class SessionService {
         return currentUser;
     }
 
+    public Long getCurrentUserId() {
+        return currentUser.getId();
+    }
+
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }

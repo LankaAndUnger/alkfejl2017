@@ -15,13 +15,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SessionService sessionService;
+
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     public boolean createUser(String username, String firstName, String lastName, String pwd, String pwdAgain,
                               String email, String phoneNumber, String address) {
-        if (validateDatas(username, firstName, lastName, pwd, pwdAgain, email, phoneNumber, address)) {
+        if (validateRegistrationDatas(username, firstName, lastName, pwd, pwdAgain, email, phoneNumber, address)) {
             User user = new User();
             user.setUsername(username);
             user.setFirstName(firstName);
@@ -30,6 +33,7 @@ public class UserService {
             user.setPhoneNumber(phoneNumber);
             user.setAddress(address);
             user.setPassword(BCrypt.hashpw(pwd, BCrypt.gensalt(10)));
+            user.setRole(User.Role.USER);
             return (userRepository.save(user) != null);
         }
         else {
@@ -37,7 +41,21 @@ public class UserService {
         }
     }
 
-    private boolean validateDatas(String username, String firstName, String lastName, String pwd, String pwdAgain,
+    public boolean modifyUser(String email, String pwd, String address, String phoneNumber) {
+        if (validateModifyDatas(email, phoneNumber)) {
+            User currentUser = sessionService.getCurrentUser();
+            currentUser.setEmail(email);
+            currentUser.setPassword(BCrypt.hashpw(pwd,BCrypt.gensalt(10)));
+            currentUser.setAddress(address);
+            currentUser.setPhoneNumber(phoneNumber);
+            return (userRepository.save(currentUser) != null);
+        }
+        else {
+            return false;
+        }
+    }
+
+    private boolean validateRegistrationDatas(String username, String firstName, String lastName, String pwd, String pwdAgain,
                                   String email, String phoneNumber, String address) {
         if (userRepository.findByUsername(username) == null) {
             System.out.println("This username exists already");
@@ -65,6 +83,19 @@ public class UserService {
         }
         if (address.equals(" ")){
             System.out.println("Invalid address");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validateModifyDatas(String email, String phoneNumber) {
+        if (!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
+            System.out.println("Invalid email");
+            return false;
+        }
+        if (!phoneNumber.matches("^(06)(30|20|70)([0-9]{7,})$")) {
+            System.out.println("Invalid phonenumber");
             return false;
         }
 

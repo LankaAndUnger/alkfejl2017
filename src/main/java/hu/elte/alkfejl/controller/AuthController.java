@@ -1,5 +1,6 @@
 package hu.elte.alkfejl.controller;
 
+import hu.elte.alkfejl.annotation.Role;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.service.SessionService;
 import hu.elte.alkfejl.service.UserService;
@@ -19,6 +20,7 @@ public class AuthController {
     @Autowired
     private SessionService sessionService;
 
+    @Role({User.Role.GUEST, User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
     public String login(@RequestParam String username, @RequestParam String pwd) {
         User currentUser = userService.getUserByUsername(username);
@@ -31,6 +33,7 @@ public class AuthController {
         }
     }
 
+    @Role(User.Role.GUEST)
     @RequestMapping(value = "/auth/registration", method = RequestMethod.POST)
     public String registration(@RequestParam String username, @RequestParam String pwd,
                                @RequestParam String firstName, @RequestParam String lastName, @RequestParam String address,

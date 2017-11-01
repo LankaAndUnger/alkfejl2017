@@ -30,6 +30,9 @@ public class Vehicle {
     @Column(nullable = false)
     private int price;
 
+    @Column
+    private boolean rented;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicle")
     private Set<Rental> rentals;
 
@@ -46,6 +49,7 @@ public class Vehicle {
         this.type = type;
         this.vintage = vintage;
         this.price = price;
+        this.rented = false;
     }
 
     public Long getId() {
@@ -110,5 +114,13 @@ public class Vehicle {
 
     public void setRatings(Set<Rating> ratings) {
         this.ratings = ratings;
+    }
+
+    public boolean isRented() {
+        return rented;
+    }
+
+    public void setRented(boolean rented) {
+        this.rented = rented;
     }
 }

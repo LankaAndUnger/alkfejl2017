@@ -40,6 +40,10 @@ public class VehicleService {
         return vehicleRepository.findAll();
     }
 
+    public List<Vehicle> getAllUnrentedVehicles() {
+        return vehicleRepository.findAllByRentedIs(false);
+    }
+
     public boolean ratingVehicle(Long vehicleId, String rating) {
         try {
             Vehicle vehicle = vehicleRepository.findOne(vehicleId);

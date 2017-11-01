@@ -2,6 +2,7 @@ package hu.elte.alkfejl.interceptor;
 
 import hu.elte.alkfejl.annotation.Role;
 import hu.elte.alkfejl.entity.User;
+import hu.elte.alkfejl.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -17,12 +18,12 @@ import java.util.List;
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private Session session;
+    private SessionService session;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         List<User.Role> routeRoles = getRoles((HandlerMethod) handler);
-        User user = session.getUser();
+        User user = session.getCurrentUser();
 
         // when there are no restrictions, we let the user through
         if (routeRoles.isEmpty() || routeRoles.contains(User.Role.GUEST)) {
