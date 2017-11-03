@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+<form method="POST" th:action="${'/auth/login'}">
+    <label for="username">Felhasználónév</label>
+    <input type="text" name="username" id="username" placeholder="Felhasználónév" />
+
+    <label for="password">Felhasználónév</label>
+    <input type="password" name="password" id="password" placeholder="Jelszó" />
+
+    <input type="submit" value="Bejelentkezés" />
+</form>
+
+<form method="POST" th:action="${'/auth/logout'}">
+    <input type="submit" value="Kijelentkezés" />
+</form>
+
+</body>
+</html>
