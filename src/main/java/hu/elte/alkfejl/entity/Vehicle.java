@@ -52,6 +52,8 @@ public class Vehicle {
         this.rented = false;
     }
 
+    public Vehicle() {}
+
     public Long getId() {
         return id;
     }

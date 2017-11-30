@@ -3,6 +3,7 @@ package hu.elte.alkfejl.service;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,12 +18,11 @@ public class UserService {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    public User getUserByUsernameAndPassword(String username, String pwd) {
-        return userRepository.findByUsernameAndPassword(username, pwd);
     }
 
     public boolean createUser(String username, String firstName, String lastName, String pwd, String pwdAgain,
@@ -35,7 +35,7 @@ public class UserService {
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
             user.setAddress(address);
-            user.setPassword(pwd);
+            user.setPassword(passwordEncoder.encode(pwd));
             user.setRole(User.Role.USER);
             return (userRepository.save(user) != null);
         }

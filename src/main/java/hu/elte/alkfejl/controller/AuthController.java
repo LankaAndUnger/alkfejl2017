@@ -5,10 +5,9 @@ import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.service.SessionService;
 import hu.elte.alkfejl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -19,16 +18,20 @@ public class AuthController {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Role({User.Role.GUEST, User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
-    public String login(@RequestParam String username, @RequestParam String pwd) {
-        User currentUser = userService.getUserByUsernameAndPassword(username, pwd);
-        if (currentUser != null) {
+    public ResponseEntity<User> login(@RequestBody User user) {
+        User currentUser = userService.getUserByUsername(user.getUsername());
+        if (currentUser != null && passwordEncoder.matches(user.getPassword(),
+                currentUser.getPassword())) {
             sessionService.setCurrentUser(currentUser);
-            return "logged in";
+            return ResponseEntity.ok(currentUser);
         }
         else {
-            return "bad credentials";
+            return ResponseEntity.status(403).build();
         }
     }
 

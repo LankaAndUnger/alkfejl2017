@@ -1,16 +1,18 @@
 package hu.elte.alkfejl.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public class User {
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(){}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
