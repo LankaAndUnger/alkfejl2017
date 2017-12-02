@@ -26,23 +26,24 @@ public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
 
-    public boolean createRental(Long vehicleId, String rentalStart, String rentalEnd) {
-        LocalDate start = createLocalDateFromString(rentalStart);
-        LocalDate end = createLocalDateFromString(rentalEnd);
+    public String createRental(Rental rental) {
+        LocalDate start = createLocalDateFromString(rental.getRentalStart().toString());
+        LocalDate end = createLocalDateFromString(rental.getRentalEnd().toString());
 
         if(validateIntervall(start, end)) {
-            Vehicle vehicle = vehicleRepository.findOne(vehicleId);
-            Rental rental = new Rental(sessionService.getCurrentUser(), vehicle, start, end);
-            return (rentalRepository.save(rental) != null);
+            Vehicle vehicle = vehicleRepository.findOne(rental.getVehicle().getId());
+            Rental newRental = new Rental(sessionService.getCurrentUser(), vehicle, start, end);
+            rentalRepository.save(newRental);
+            return "";
         }
         else {
-            return false;
+            return "A kölcsönzés vége előbb van, mint a kölcsönzés kezdete!";
         }
     }
 
     private LocalDate createLocalDateFromString(String date) {
         String[] dateParts = date.split("/");
-        return LocalDate.of(Integer.valueOf(dateParts[0]), Integer.valueOf(dateParts[1]), Integer.valueOf(dateParts[2]));
+        return LocalDate.of(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[1]), Integer.valueOf(dateParts[0]));
     }
 
     private boolean validateIntervall(LocalDate start, LocalDate end) {
@@ -73,5 +74,10 @@ public class RentalService {
         else {
             return days * rental.getVehicle().getPrice();
         }
+    }
+
+    @Transactional
+    public List<Rental> getCurrentUserRentals() {
+       return rentalRepository.findAllByUser(sessionService.getCurrentUser());
     }
 }

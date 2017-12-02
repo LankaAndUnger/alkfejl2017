@@ -1,11 +1,12 @@
 package hu.elte.alkfejl.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "rental")
-public class Rental {
+public class Rental implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,8 @@ public class Rental {
         this.rentalStart = rentalStart;
         this.rentalEnd = rentalEnd;
     }
+
+    public Rental(){}
 
     public Long getId() {
         return id;

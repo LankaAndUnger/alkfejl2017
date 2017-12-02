@@ -27,5 +27,24 @@
     <button mat-raised-button color="accent" (click)="modifyUser(email.value, address.value, phoneNumber.value)">
       Módosítás
     </button>
+
+    <h1>Kölcsönzéseim</h1>
+    <table>
+      <tr>
+        <th>Jármű</th>
+        <th>Kölcsönzés kezdete</th>
+        <th>Kölcsönzés vége</th>
+        <th>Kölcsönzés lezárása</th>
+        <th>Fizetendő</th>
+      </tr>
+      <tr *ngFor="let rental of rentals">
+        <td>{{rental.vehicle.brand}}</td>
+        <td>{{rental.rentalStart}}</td>
+        <td>{{rental.rentalEnd}}</td>
+        <td>{{rental.rentalClose}}</td>
+        <td>{{rental.amount}} Ft</td>
+      </tr>
+    </table>
+
   </mat-card-content>
 </mat-card>

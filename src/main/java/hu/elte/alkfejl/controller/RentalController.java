@@ -31,12 +31,15 @@ public class RentalController {
     }
 
     @Role(User.Role.USER)
+    @RequestMapping(value = "getMyRentals", method = RequestMethod.GET)
+    public List<Rental> getMyRentals() {
+        return rentalService.getCurrentUserRentals();
+    }
+
+    @Role(User.Role.USER)
     @RequestMapping(value = "/api/newRental", method = RequestMethod.POST)
-    public String createNewRental(@RequestParam Long vehicleId, @RequestParam String rentalStart, @RequestParam String rentalEnd) {
-        if (rentalService.createRental(vehicleId, rentalStart, rentalEnd)) {
-            return "successfully create a new rental";
-        }
-        return "unknow error";
+    public String createNewRental(@RequestBody Rental rental) {
+        return rentalService.createRental(rental);
     }
 
     @Role(User.Role.ADMIN)

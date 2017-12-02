@@ -53,6 +53,7 @@ public class UserService {
             currentUser.setEmail(user.getEmail());
             currentUser.setAddress(user.getAddress());
             currentUser.setPhoneNumber(user.getPhoneNumber());
+            userRepository.save(currentUser);
             return "";
         }
         else {

@@ -1,6 +1,7 @@
 package hu.elte.alkfejl.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "vehicle")
-public class Vehicle {
+public class Vehicle implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
