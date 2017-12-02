@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-content>
+    <h3>Bejelentkezés</h3>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="username" placeholder="Felhasználónév" #userInput>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="password" name="password" placeholder="Jelszó" #passwordInput>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="accent"
+            (click)="tryLogin(userInput.value, passwordInput.value)">
+      Bejelentkezés
+    </button>
+    <br>
+    <div class="registration-button-center">
+      <button mat-button color="accent" routerLink="/registration">Új fiók létrehozása</button>
+    </div>
+  </mat-card-content>
+</mat-card>

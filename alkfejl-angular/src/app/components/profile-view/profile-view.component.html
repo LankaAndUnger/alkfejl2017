@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Adatok</h1>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="username" placeholder="Felhasználónév" [value]="authService.getCurrentUser().username" disabled #username>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="lastName" placeholder="Vezetéknév" [value]="authService.getCurrentUser().lastName" disabled #lastName>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="firstName" placeholder="Keresztnév" [value]="authService.getCurrentUser().firstName" disabled #firstName>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="email" name="email" placeholder="Email" [value]="authService.getCurrentUser().email" #email>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="address" placeholder="Lakhely" [value]="authService.getCurrentUser().address" #address>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="phoneNumber" placeholder="Telefonszám" [value]="authService.getCurrentUser().phoneNumber" #phoneNumber>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="accent" (click)="modifyUser(email.value, address.value, phoneNumber.value)">
+      Módosítás
+    </button>
+  </mat-card-content>
+</mat-card>

@@ -16,7 +16,7 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-//    @Role({User.Role.ADMIN, User.Role.USER})
+    @Role({User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/r/vehicles", method = RequestMethod.GET)
     public List<Vehicle> getVehicles() {
         List<Vehicle> vehicles = vehicleService.getAllVehicles();
