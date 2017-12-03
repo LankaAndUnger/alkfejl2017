@@ -10,6 +10,8 @@ import { VehicleViewComponent } from './components/vehicle-view/vehicle-view.com
 import { RegistrationViewComponent } from './components/registration-view/registration-view.component';
 import { ProfileViewComponent } from './components/profile-view/profile-view.component';
 import { RentalViewComponent } from './components/rental-view/rental-view.component';
+import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
+import { CloseRentalComponent } from './components/close-rental/close-rental.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { RentalViewComponent } from './components/rental-view/rental-view.compon
     VehicleViewComponent,
     RegistrationViewComponent,
     ProfileViewComponent,
-    RentalViewComponent
+    RentalViewComponent,
+    AddVehicleComponent,
+    CloseRentalComponent
   ],
   imports: [
     BrowserModule,

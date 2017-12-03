@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Kölcsönözések</h1>
+    <hr>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <input type="text" id="searchInput" (keyup)="applyFilter($event.target.value)" placeholder="Keresés.." />
+    <table>
+      <tr>
+        <th>Név</th>
+        <th>Jármű</th>
+        <th>Kölcsönzés kezdete</th>
+        <th>Kölcsönzés vége</th>
+        <th>Kölcsönzés lezárása</th>
+        <th>Fizetendő</th>
+        <th class="align-center">Lezárás</th>
+      </tr>
+      <tr *ngFor="let rental of rentals">
+        <td>{{rental.user.firstName + " " + rental.user.lastName}}</td>
+        <td>{{rental.vehicle.brand + ' (' + rental.vehicle.plate + ')'}}</td>
+        <td>{{rental.rentalStart.toString().replace(regexp, '-')}}</td>
+        <td>{{rental.rentalEnd.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.rentalClose === null"></td>
+        <td *ngIf="rental.rentalClose !== null">{{rental.rentalClose.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.amount !== 0">{{rental.amount}} Ft</td>
+        <td *ngIf="rental.amount === 0"></td>
+        <td class="align-center"><button *ngIf="rental.rentalClose === null" (click)="getId(rental.id)">Lezárás</button></td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

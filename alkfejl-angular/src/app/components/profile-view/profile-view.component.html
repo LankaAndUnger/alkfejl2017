@@ -38,11 +38,13 @@
         <th>Fizetendő</th>
       </tr>
       <tr *ngFor="let rental of rentals">
-        <td>{{rental.vehicle.brand}}</td>
-        <td>{{rental.rentalStart}}</td>
-        <td>{{rental.rentalEnd}}</td>
-        <td>{{rental.rentalClose}}</td>
-        <td>{{rental.amount}} Ft</td>
+        <td>{{rental.vehicle.brand + ' (' + rental.vehicle.plate + ')'}}</td>
+        <td>{{rental.rentalStart.toString().replace(regexp, '-')}}</td>
+        <td>{{rental.rentalEnd.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.rentalClose === null"></td>
+        <td *ngIf="rental.rentalClose !== null">{{rental.rentalClose.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.amount !== 0">{{rental.amount}} Ft</td>
+        <td *ngIf="rental.amount === 0"></td>
       </tr>
     </table>
 

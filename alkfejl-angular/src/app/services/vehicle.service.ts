@@ -17,4 +17,8 @@ export class VehicleService {
   public getUnrentedVehicles(): Observable<any> {
     return this.httpClient.get(api + 'r/unrentedVehicles');
   }
+
+  public addVehicle(plate: string, brand: string, type: string, vintage: number, price: number) {
+      return this.httpClient.post(api + 'api/addVehicle', {plate, brand, type, vintage, price}, {'responseType': 'text'});
+  }
 }

@@ -3,6 +3,8 @@
     <span class="left">
         <button *ngIf="authService.userHasRole(['ADMIN','USER'])" mat-button routerLink="/vehicle">Járművek</button>
         <button *ngIf="authService.userHasRole(['USER'])" mat-button routerLink="/rental">Új kölcsönzés</button>
+        <button *ngIf="authService.userHasRole(['ADMIN'])" mat-button routerLink="/addVehicle">Jármű hozzáadása</button>
+        <button *ngIf="authService.userHasRole(['ADMIN'])" mat-button routerLink="/closeRental">Kölcsönzések</button>
     </span>
     <span class="right">
         <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login">

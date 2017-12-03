@@ -11,18 +11,26 @@ export class RentalService {
 
   private vehicles: Vehicle[];
 
-  constructor(private http: HttpClient, private vehicleService: VehicleService) { }
+  constructor(private http: HttpClient, private vehicleService: VehicleService) {
+    this.vehicleService.getVehicles().subscribe((vehicles: Vehicle[]) => {
+    this.vehicles = vehicles; });
+  }
 
   public getUserRentals(): Observable<Rental[]> {
     return this.http.get(api + 'getMyRentals');
   }
 
-  public createNewRental(vehicleId: number, startDate: string, endDate: string) {
-    this.vehicleService.getVehicles().subscribe((vehicles: Vehicle[]) => {
-      this.vehicles = vehicles;
-    });
-    const vehicle = this.vehicles.find((v) => v.id === vehicleId);
-    return this.http.post(api + 'api/newRental', {vehicle, startDate, endDate});
+  public createNewRental(vehicleId: number, rentalStart: Date, rentalEnd: Date) {
+      const vehicle = this.vehicles.find((v) => v.id === vehicleId);
+      return this.http.post(api + 'api/newRental', {vehicle, rentalStart, rentalEnd}, {'responseType': 'text'});
+  }
+
+  public getAllRentals(): Observable<Rental[]> {
+    return this.http.get(api + 'r/rentals');
+  }
+
+  public closeRental(value: number) {
+    return this.http.post(api + 'api/closeRental/' + value, null , {'responseType': 'text'});
   }
 
 }

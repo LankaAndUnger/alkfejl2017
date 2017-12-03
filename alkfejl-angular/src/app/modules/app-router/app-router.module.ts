@@ -5,13 +5,17 @@ import {VehicleViewComponent} from '../../components/vehicle-view/vehicle-view.c
 import {RegistrationViewComponent} from '../../components/registration-view/registration-view.component';
 import {ProfileViewComponent} from '../../components/profile-view/profile-view.component';
 import {RentalViewComponent} from '../../components/rental-view/rental-view.component';
+import {AddVehicleComponent} from '../../components/add-vehicle/add-vehicle.component';
+import {CloseRentalComponent} from '../../components/close-rental/close-rental.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginViewComponent },
   { path: 'vehicle', component: VehicleViewComponent},
   { path: 'registration', component: RegistrationViewComponent},
   { path: 'profile', component: ProfileViewComponent},
-  { path: 'rental', component: RentalViewComponent}
+  { path: 'rental', component: RentalViewComponent},
+  { path: 'addVehicle', component: AddVehicleComponent},
+  { path: 'closeRental', component: CloseRentalComponent}
 ];
 
 @NgModule({

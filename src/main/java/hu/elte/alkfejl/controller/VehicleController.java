@@ -30,14 +30,8 @@ public class VehicleController {
 
     @Role(User.Role.ADMIN)
     @RequestMapping(value = "/api/addVehicle", method = RequestMethod.POST)
-    public String addNewVehicle(@RequestParam String plate, @RequestParam String brand, @RequestParam String type,
-                                @RequestParam String vintage, @RequestParam String price) {
-        if (vehicleService.createNewVehicle(plate, brand, type, vintage, price)) {
-            return "successfully add a new vehicle to the database";
-        }
-        else {
-            return "bad datas";
-        }
+    public String addNewVehicle(@RequestBody Vehicle vehicle) {
+        return vehicleService.createNewVehicle(vehicle);
     }
 
     @Role(User.Role.USER)

@@ -21,19 +21,13 @@ public class VehicleService {
     @Autowired
     private RatingRepository ratingRepository;
 
-    public boolean createNewVehicle(String plate, String brand, String type, String vintage, String price) {
-        try {
-            int realVintage = Integer.parseInt(vintage);
-            int realPrice = Integer.parseInt(price);
-            Vehicle vehicle = new Vehicle(plate, brand, type, realVintage, realPrice);
-            if (vehicleRepository.save(vehicle) == null) {
-                return false;
-            }
+    public String createNewVehicle(Vehicle vehicle) {
+        String result = validateVehicleData(vehicle);
+        if (result.equals("")) {
+            vehicleRepository.save(vehicle);
+            return result;
         }
-        catch (NumberFormatException e) {
-            System.out.println(e);
-        }
-        return true;
+        return result;
     }
 
     public List<Vehicle> getAllVehicles() {
@@ -58,6 +52,20 @@ public class VehicleService {
             System.out.println(e);
         }
         return true;
+    }
+
+    private String validateVehicleData(Vehicle vehicle) {
+        if (vehicle.getPlate().equals("") || vehicle.getBrand().equals("") || vehicle.getType().equals("")) {
+            return "Minden mezőt kötelező kitölteni!";
+        }
+        if (vehicle.getVintage() <= 0) {
+            return "Hibás évjárat!";
+        }
+        if (vehicle.getPrice() <= 0) {
+            return "Hibés bérleti díj!";
+        }
+
+        return "";
     }
 
 }

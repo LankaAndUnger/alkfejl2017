@@ -1,5 +1,8 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,6 +37,7 @@ public class Vehicle implements Serializable{
     @Column
     private boolean rented;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicle")
     private Set<Rental> rentals;
 

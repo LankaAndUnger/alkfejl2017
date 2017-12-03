@@ -15,11 +15,13 @@ export class RentalViewComponent implements OnInit {
   @Input()
   public vehicles: Vehicle[];
 
+  private startDate: Date;
+  private endDate: Date;
+  private error: string;
+
   constructor(
     private vehicleService: VehicleService,
-    private rentalService: RentalService,
-    private startDate: string,
-    private endDate: string
+    private rentalService: RentalService
   ) { }
 
   ngOnInit() {
@@ -46,17 +48,25 @@ export class RentalViewComponent implements OnInit {
     }
   }
 
-  public startDateInput(value: string) {
+  public startDateInput(value: Date) {
     this.startDate = value;
   }
 
-  public endDateInput(value: string) {
+  public endDateInput(value: Date) {
+    console.log(value.getDate());
     this.endDate = value;
   }
 
   public tryCreateNewRental(vehicle: number) {
     this.rentalService.createNewRental(vehicle, this.startDate, this.endDate).subscribe((result) => {
-      console.log(result);
+      if (result !== null) {
+        this.error = result;
+      } else {
+        window.alert('Sikeres kölcsönzés!');
+        this.vehicleService.getUnrentedVehicles().subscribe((vehicles: Vehicle[]) => {
+          this.vehicles = vehicles;
+        });
+      }
     });
   }
 

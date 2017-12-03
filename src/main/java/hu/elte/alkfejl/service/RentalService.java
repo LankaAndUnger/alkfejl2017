@@ -27,17 +27,22 @@ public class RentalService {
     private RentalRepository rentalRepository;
 
     public String createRental(Rental rental) {
-        LocalDate start = createLocalDateFromString(rental.getRentalStart().toString());
-        LocalDate end = createLocalDateFromString(rental.getRentalEnd().toString());
+        if (rental.getRentalStart() == null || rental.getRentalEnd() == null || rental.getVehicle() == null) {
+            return "Minden mezőt kötelező kitölteni!";
+        } else {
+            LocalDate start = rental.getRentalStart().plusDays(1);
+            LocalDate end = rental.getRentalEnd().plusDays(1);
 
-        if(validateIntervall(start, end)) {
-            Vehicle vehicle = vehicleRepository.findOne(rental.getVehicle().getId());
-            Rental newRental = new Rental(sessionService.getCurrentUser(), vehicle, start, end);
-            rentalRepository.save(newRental);
-            return "";
-        }
-        else {
-            return "A kölcsönzés vége előbb van, mint a kölcsönzés kezdete!";
+            if(validateIntervall(start, end)) {
+                Rental newRental = new Rental(sessionService.getCurrentUser(), rental.getVehicle(), start, end);
+                rental.getVehicle().setRented(true);
+                vehicleRepository.save(rental.getVehicle());
+                rentalRepository.save(newRental);
+                return "";
+            }
+            else {
+                return "A kölcsönzés vége előbb van, mint a kölcsönzés kezdete!";
+            }
         }
     }
 
@@ -47,7 +52,7 @@ public class RentalService {
     }
 
     private boolean validateIntervall(LocalDate start, LocalDate end) {
-        return start.isBefore(end);
+        return start.isBefore(end) && !start.isBefore(LocalDate.now());
     }
 
     public List<Rental> getRentalsByUser(User currentUser) {
@@ -63,10 +68,14 @@ public class RentalService {
         rental.setRentalClose(LocalDate.now());
         int price = calculatePrice(rental);
         rental.setAmount(price);
-        return (rentalRepository.save(rental) != null);
+        rental.getVehicle().setRented(false);
+        return (rentalRepository.save(rental) != null && vehicleRepository.save(rental.getVehicle()) != null);
     }
 
     private int calculatePrice(Rental rental) {
+        if (LocalDate.now().isBefore(rental.getRentalStart())) {
+            return 0;
+        }
         int days = (int) ChronoUnit.DAYS.between(rental.getRentalStart(), rental.getRentalEnd());
         if (rental.getRentalEnd().isBefore(LocalDate.now())) {
             return (int)((days * rental.getVehicle().getPrice()) * 0.2);
@@ -76,7 +85,6 @@ public class RentalService {
         }
     }
 
-    @Transactional
     public List<Rental> getCurrentUserRentals() {
        return rentalRepository.findAllByUser(sessionService.getCurrentUser());
     }

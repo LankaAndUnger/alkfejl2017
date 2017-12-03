@@ -1,6 +1,7 @@
 <mat-card>
   <mat-card-content>
      <h1>Új kölcsönzés</h1>
+    <div class="error-show" *ngIf="error">{{error}}</div>
     <mat-form-field color="accent">
       <mat-select placeholder="Jármű" #vehicleInput>
         <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
