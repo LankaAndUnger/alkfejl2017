@@ -1,8 +1,10 @@
 package hu.elte.alkfejl.service;
 
+import hu.elte.alkfejl.entity.Rating;
 import hu.elte.alkfejl.entity.Rental;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.entity.Vehicle;
+import hu.elte.alkfejl.repository.RatingRepository;
 import hu.elte.alkfejl.repository.RentalRepository;
 import hu.elte.alkfejl.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
 
+    @Autowired
+    private RatingRepository ratingRepository;
+
     public String createRental(Rental rental) {
         if (rental.getRentalStart() == null || rental.getRentalEnd() == null || rental.getVehicle() == null) {
             return "Minden mezőt kötelező kitölteni!";
@@ -41,7 +46,7 @@ public class RentalService {
                 return "";
             }
             else {
-                return "A kölcsönzés vége előbb van, mint a kölcsönzés kezdete!";
+                return "Hibás intervallum!";
             }
         }
     }
@@ -87,5 +92,9 @@ public class RentalService {
 
     public List<Rental> getCurrentUserRentals() {
        return rentalRepository.findAllByUser(sessionService.getCurrentUser());
+    }
+
+    public List<Rating> getAllRatings() {
+        return ratingRepository.findAll();
     }
 }

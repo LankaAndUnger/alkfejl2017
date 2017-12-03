@@ -7,6 +7,7 @@ import {ProfileViewComponent} from '../../components/profile-view/profile-view.c
 import {RentalViewComponent} from '../../components/rental-view/rental-view.component';
 import {AddVehicleComponent} from '../../components/add-vehicle/add-vehicle.component';
 import {CloseRentalComponent} from '../../components/close-rental/close-rental.component';
+import {RateVehicleComponent} from '../../components/rate-vehicle/rate-vehicle.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginViewComponent },
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfileViewComponent},
   { path: 'rental', component: RentalViewComponent},
   { path: 'addVehicle', component: AddVehicleComponent},
-  { path: 'closeRental', component: CloseRentalComponent}
+  { path: 'closeRental', component: CloseRentalComponent},
+  { path: 'rating/:id', component: RateVehicleComponent}
 ];
 
 @NgModule({

@@ -12,6 +12,7 @@ import { ProfileViewComponent } from './components/profile-view/profile-view.com
 import { RentalViewComponent } from './components/rental-view/rental-view.component';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { CloseRentalComponent } from './components/close-rental/close-rental.component';
+import { RateVehicleComponent } from './components/rate-vehicle/rate-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CloseRentalComponent } from './components/close-rental/close-rental.com
     ProfileViewComponent,
     RentalViewComponent,
     AddVehicleComponent,
-    CloseRentalComponent
+    CloseRentalComponent,
+    RateVehicleComponent
   ],
   imports: [
     BrowserModule,

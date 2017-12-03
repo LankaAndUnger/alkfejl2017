@@ -33,7 +33,9 @@ export class CloseRentalComponent implements OnInit {
         this.error = response;
       } else {
         window.alert('Sikeresen lezárta a kölcsönzést!');
-        window.location.reload();
+        this.rentalService.getAllRentals().subscribe((rentals: Rental[]) => {
+          this.rentals = rentals;
+        });
       }
     });
   }

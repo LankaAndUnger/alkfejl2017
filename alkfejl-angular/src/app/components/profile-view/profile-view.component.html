@@ -36,6 +36,7 @@
         <th>Kölcsönzés vége</th>
         <th>Kölcsönzés lezárása</th>
         <th>Fizetendő</th>
+        <th>Értékelés</th>
       </tr>
       <tr *ngFor="let rental of rentals">
         <td>{{rental.vehicle.brand + ' (' + rental.vehicle.plate + ')'}}</td>
@@ -45,6 +46,8 @@
         <td *ngIf="rental.rentalClose !== null">{{rental.rentalClose.toString().replace(regexp, '-')}}</td>
         <td *ngIf="rental.amount !== 0">{{rental.amount}} Ft</td>
         <td *ngIf="rental.amount === 0"></td>
+        <td *ngIf="rental.rentalClose === null"></td>
+        <td *ngIf="rental.rentalClose !== null"><button routerLink="/rating/{{rental.vehicle.id}}">Értékelem</button></td>
       </tr>
     </table>
 

@@ -1,6 +1,7 @@
 package hu.elte.alkfejl.controller;
 
 import hu.elte.alkfejl.annotation.Role;
+import hu.elte.alkfejl.entity.Rating;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.entity.Vehicle;
 import hu.elte.alkfejl.repository.VehicleRepository;
@@ -35,13 +36,13 @@ public class VehicleController {
     }
 
     @Role(User.Role.USER)
-    @RequestMapping(value = "/api/rating/{vehicleId}", method = RequestMethod.POST)
-    public String ratingVehicle(@RequestParam String rating, @PathVariable("vehicleId") Long vehicleId) {
-        if (vehicleService.ratingVehicle(vehicleId, rating)) {
-            return "successfully rating the vehicle";
+    @RequestMapping(value = "/api/rating/{vehicleId}/{ratingId}", method = RequestMethod.POST)
+    public String ratingVehicle(@PathVariable("ratingId") Long ratingId, @PathVariable("vehicleId") Long vehicleId) {
+        if (vehicleService.ratingVehicle(vehicleId, ratingId)) {
+            return "";
         }
         else {
-            return "unknow error";
+            return "Hiba történt a művelet közben!";
         }
     }
 

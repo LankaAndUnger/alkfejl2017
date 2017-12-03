@@ -38,18 +38,12 @@ public class VehicleService {
         return vehicleRepository.findAllByRentedIs(false);
     }
 
-    public boolean ratingVehicle(Long vehicleId, String rating) {
-        try {
-            Vehicle vehicle = vehicleRepository.findOne(vehicleId);
-            int ratingValue = Integer.parseInt(rating);
-            Rating realRating = ratingRepository.findByValue(ratingValue);
-            vehicle.getRatings().add(realRating);
-            if (vehicleRepository.save(vehicle) == null) {
-                return false;
-            }
-        }
-        catch (NumberFormatException e) {
-            System.out.println(e);
+    public boolean ratingVehicle(Long vehicleId, Long ratingId) {
+        Vehicle vehicle = vehicleRepository.findOne(vehicleId);
+        Rating rating = ratingRepository.findOne(ratingId);
+        vehicle.getRatings().add(rating);
+        if (vehicleRepository.save(vehicle) == null) {
+            return false;
         }
         return true;
     }

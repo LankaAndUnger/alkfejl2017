@@ -1,5 +1,7 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class Rating implements Serializable {
     @Column(nullable = false)
     private int value;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ratings")
     private Set<Vehicle> vehicles;
 
