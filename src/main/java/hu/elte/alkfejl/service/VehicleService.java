@@ -21,19 +21,13 @@ public class VehicleService {
     @Autowired
     private RatingRepository ratingRepository;
 
-    public boolean createNewVehicle(String plate, String brand, String type, String vintage, String price) {
-        try {
-            int realVintage = Integer.parseInt(vintage);
-            int realPrice = Integer.parseInt(price);
-            Vehicle vehicle = new Vehicle(plate, brand, type, realVintage, realPrice);
-            if (vehicleRepository.save(vehicle) == null) {
-                return false;
-            }
+    public String createNewVehicle(Vehicle vehicle) {
+        String result = validateVehicleData(vehicle);
+        if (result.equals("")) {
+            vehicleRepository.save(vehicle);
+            return result;
         }
-        catch (NumberFormatException e) {
-            System.out.println(e);
-        }
-        return true;
+        return result;
     }
 
     public List<Vehicle> getAllVehicles() {
@@ -44,20 +38,28 @@ public class VehicleService {
         return vehicleRepository.findAllByRentedIs(false);
     }
 
-    public boolean ratingVehicle(Long vehicleId, String rating) {
-        try {
-            Vehicle vehicle = vehicleRepository.findOne(vehicleId);
-            int ratingValue = Integer.parseInt(rating);
-            Rating realRating = ratingRepository.findByValue(ratingValue);
-            vehicle.getRatings().add(realRating);
-            if (vehicleRepository.save(vehicle) == null) {
-                return false;
-            }
-        }
-        catch (NumberFormatException e) {
-            System.out.println(e);
+    public boolean ratingVehicle(Long vehicleId, Long ratingId) {
+        Vehicle vehicle = vehicleRepository.findOne(vehicleId);
+        Rating rating = ratingRepository.findOne(ratingId);
+        vehicle.getRatings().add(rating);
+        if (vehicleRepository.save(vehicle) == null) {
+            return false;
         }
         return true;
+    }
+
+    private String validateVehicleData(Vehicle vehicle) {
+        if (vehicle.getPlate().equals("") || vehicle.getBrand().equals("") || vehicle.getType().equals("")) {
+            return "Minden mezőt kötelező kitölteni!";
+        }
+        if (vehicle.getVintage() <= 0) {
+            return "Hibás évjárat!";
+        }
+        if (vehicle.getPrice() <= 0) {
+            return "Hibés bérleti díj!";
+        }
+
+        return "";
     }
 
 }

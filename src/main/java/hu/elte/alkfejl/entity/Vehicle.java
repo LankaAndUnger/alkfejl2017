@@ -1,6 +1,10 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -9,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "vehicle")
-public class Vehicle {
+public class Vehicle implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +37,7 @@ public class Vehicle {
     @Column
     private boolean rented;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicle")
     private Set<Rental> rentals;
 
@@ -51,6 +56,8 @@ public class Vehicle {
         this.price = price;
         this.rented = false;
     }
+
+    public Vehicle() {}
 
     public Long getId() {
         return id;

@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Jármű hozzáadása</h1>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="plate" placeholder="Rendszámtábla" #plate>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="brand" placeholder="Márka" #brand>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="type" placeholder="Típus" #type>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="vintage" placeholder="Évjárat" #vintage>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="price" placeholder="Kölcsönzési díj" #price>
+    </mat-form-field>
+    <br>
+
+    <button mat-raised-button color="accent" (click)="tryToAddNewVehicle(plate.value, brand.value, type.value, vintage.value, price.value)">
+      Küldés
+    </button>
+  </mat-card-content>
+</mat-card>

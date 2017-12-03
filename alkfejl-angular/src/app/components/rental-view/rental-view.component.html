@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-content>
+     <h1>Új kölcsönzés</h1>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <mat-form-field color="accent">
+      <mat-select placeholder="Jármű" #vehicleInput>
+        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+          {{ vehicle.brand + ' (' + vehicle.plate + ')' }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput (dateChange)="startDateInput($event.value)" [matDatepicker]="startDate" placeholder="Kölcsönzés kezdete">
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput (dateChange)="endDateInput($event.value)" [matDatepicker]="endDate" placeholder="Kölcsönzés vége" #endDate>
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+      <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="tryCreateNewRental(vehicleInput.value)">Küldés</button>
+
+    <h1>Kölcsönözhető járművek</h1>
+    <hr>
+
+    <input type="text" id="searchInput" (keyup)="applyFilter($event.target.value)" placeholder="Keresés.." />
+    <table>
+      <tr>
+        <th>Rendszám</th>
+        <th>Márka</th>
+        <th>Típus</th>
+        <th>Évjárat</th>
+        <th>Bérleti díj</th>
+      </tr>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{vehicle.plate}}</td>
+        <td>{{vehicle.brand}}</td>
+        <td>{{vehicle.type}}</td>
+        <td>{{vehicle.vintage}}</td>
+        <td>{{vehicle.price}} Ft</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

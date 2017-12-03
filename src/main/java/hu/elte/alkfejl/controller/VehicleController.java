@@ -1,6 +1,7 @@
 package hu.elte.alkfejl.controller;
 
 import hu.elte.alkfejl.annotation.Role;
+import hu.elte.alkfejl.entity.Rating;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.entity.Vehicle;
 import hu.elte.alkfejl.repository.VehicleRepository;
@@ -19,30 +20,29 @@ public class VehicleController {
     @Role({User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/r/vehicles", method = RequestMethod.GET)
     public List<Vehicle> getVehicles() {
-        List<Vehicle> vehicles = vehicleService.getAllVehicles();
-        return vehicles;
+        return vehicleService.getAllVehicles();
+    }
+
+    @Role(User.Role.USER)
+    @RequestMapping(value = "/r/unrentedVehicles", method = RequestMethod.GET)
+    public List<Vehicle> getUnrentedVehicles() {
+        return vehicleService.getAllUnrentedVehicles();
     }
 
     @Role(User.Role.ADMIN)
     @RequestMapping(value = "/api/addVehicle", method = RequestMethod.POST)
-    public String addNewVehicle(@RequestParam String plate, @RequestParam String brand, @RequestParam String type,
-                                @RequestParam String vintage, @RequestParam String price) {
-        if (vehicleService.createNewVehicle(plate, brand, type, vintage, price)) {
-            return "successfully add a new vehicle to the database";
-        }
-        else {
-            return "bad datas";
-        }
+    public String addNewVehicle(@RequestBody Vehicle vehicle) {
+        return vehicleService.createNewVehicle(vehicle);
     }
 
     @Role(User.Role.USER)
-    @RequestMapping(value = "/api/rating/{vehicleId}", method = RequestMethod.POST)
-    public String ratingVehicle(@RequestParam String rating, @PathVariable("vehicleId") Long vehicleId) {
-        if (vehicleService.ratingVehicle(vehicleId, rating)) {
-            return "successfully rating the vehicle";
+    @RequestMapping(value = "/api/rating/{vehicleId}/{ratingId}", method = RequestMethod.POST)
+    public String ratingVehicle(@PathVariable("ratingId") Long ratingId, @PathVariable("vehicleId") Long vehicleId) {
+        if (vehicleService.ratingVehicle(vehicleId, ratingId)) {
+            return "";
         }
         else {
-            return "unknow error";
+            return "Hiba történt a művelet közben!";
         }
     }
 

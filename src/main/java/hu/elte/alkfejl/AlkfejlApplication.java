@@ -1,6 +1,6 @@
 package hu.elte.alkfejl;
 
-import hu.elte.alkfejl.interceptor.AuthInterceptor;
+import hu.elte.alkfejl.config.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

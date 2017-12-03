@@ -3,7 +3,6 @@ package hu.elte.alkfejl.service;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,83 +21,77 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public boolean createUser(String username, String firstName, String lastName, String pwd, String pwdAgain,
-                              String email, String phoneNumber, String address) {
-        if (validateRegistrationDatas(username, firstName, lastName, pwd, pwdAgain, email, phoneNumber, address)) {
-            User user = new User();
-            user.setUsername(username);
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setEmail(email);
-            user.setPhoneNumber(phoneNumber);
-            user.setAddress(address);
-            user.setPassword(BCrypt.hashpw(pwd, BCrypt.gensalt(10)));
-            user.setRole(User.Role.USER);
-            return (userRepository.save(user) != null);
-        }
-        else {
-            return false;
-        }
+    public User getUserByUsernameAndPassword(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    public boolean modifyUser(String email, String pwd, String address, String phoneNumber) {
-        if (validateModifyDatas(email, phoneNumber)) {
+    public String createUser(User user) {
+        if (user.getUsername().equals("") || user.getFirstName().equals("") || user.getLastName().equals("") || user.getEmail().equals("")
+                || user.getAddress().equals("") || user.getPassword().equals("") ||user.getPhoneNumber().equals("")) {
+            return "Minden mezőt kötelező kitölteni!";
+        }
+        else {
+            String response = validateRegistrationDatas(user.getUsername(), user.getFirstName(), user.getLastName(), user.getPassword(),
+                    user.getEmail(), user.getPhoneNumber(), user.getAddress());
+
+            if (response.equals(" ")) {
+                user.setRole(User.Role.USER);
+                userRepository.save(user);
+                return "";
+            }
+            else {
+                return response;
+            }
+        }
+
+    }
+
+    public String modifyUser(User user) {
+        String respone = validateModifyDatas(user.getEmail(), user.getPhoneNumber());
+        if (respone.equals("")) {
             User currentUser = sessionService.getCurrentUser();
-            currentUser.setEmail(email);
-            currentUser.setPassword(BCrypt.hashpw(pwd,BCrypt.gensalt(10)));
-            currentUser.setAddress(address);
-            currentUser.setPhoneNumber(phoneNumber);
-            return (userRepository.save(currentUser) != null);
+            currentUser.setEmail(user.getEmail());
+            currentUser.setAddress(user.getAddress());
+            currentUser.setPhoneNumber(user.getPhoneNumber());
+            userRepository.save(currentUser);
+            return "";
         }
         else {
-            return false;
+            return respone;
         }
     }
 
-    private boolean validateRegistrationDatas(String username, String firstName, String lastName, String pwd, String pwdAgain,
+    private String validateRegistrationDatas(String username, String firstName, String lastName, String pwd,
                                   String email, String phoneNumber, String address) {
-        if (userRepository.findByUsername(username) == null) {
-            System.out.println("This username exists already");
-            return false;
+        if (userRepository.findByUsername(username) != null) {
+            return "Ez a felhasználónév már foglalt! Kérem válasszon egy másikat!";
         }
         if (!firstName.matches("^[a-zA-Z'‘öüóőúéáűŐÜÓÖÚÉÁŰ]{1,}$")) {
-            System.out.printf("Invalid firstname");
-            return false;
+            return "Hibás keresztnév!";
         }
         if (!lastName.matches("^[a-zA-Z'‘öüóőúéáűŐÜÓÖÚÉÁŰ]{1,}$")) {
-            System.out.printf("Invalid lastname");
-            return false;
-        }
-        if (!pwd.equals(pwdAgain)) {
-            System.out.println("Passwords must match");
-            return false;
+            return "Hibás vezetéknév!";
         }
         if (!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-            System.out.println("Invalid email");
-            return false;
+            return "Hibás email cím!";
         }
         if (!phoneNumber.matches("^(06)(30|20|70)([0-9]{7,})$")) {
-            System.out.println("Invalid phonenumber");
-            return false;
+            return "Hibás telefonszám!";
         }
         if (address.equals(" ")){
-            System.out.println("Invalid address");
-            return false;
+            return "Hibás cím!";
         }
 
-        return true;
+        return " ";
     }
 
-    private boolean validateModifyDatas(String email, String phoneNumber) {
+    private String validateModifyDatas(String email, String phoneNumber) {
         if (!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")){
-            System.out.println("Invalid email");
-            return false;
+            return "Hibás email cím!";
         }
         if (!phoneNumber.matches("^(06)(30|20|70)([0-9]{7,})$")) {
-            System.out.println("Invalid phonenumber");
-            return false;
+            return "Hibás telefonszám!";
         }
-
-        return true;
+        return "";
     }
 }

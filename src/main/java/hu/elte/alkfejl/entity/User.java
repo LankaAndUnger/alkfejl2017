@@ -1,16 +1,19 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "user")
-public class User {
+@AllArgsConstructor
+public class User implements Serializable {
+
+    public User(){}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +44,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Rental> rentals;
 

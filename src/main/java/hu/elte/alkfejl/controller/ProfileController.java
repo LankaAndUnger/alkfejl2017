@@ -8,10 +8,7 @@ import hu.elte.alkfejl.service.SessionService;
 import hu.elte.alkfejl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,14 +35,8 @@ public class ProfileController {
 
     @Role({User.Role.ADMIN, User.Role.USER})
     @RequestMapping(value = "/api/modifyUser", method = RequestMethod.POST)
-    public String modifyUser(@RequestParam String email, @RequestParam String pwd,
-                             @RequestParam String address, @RequestParam String phoneNumber) {
-        if (userService.modifyUser(email, pwd, address, phoneNumber)) {
-            return "successfully modify user";
-        }
-        else {
-            return "bad datas";
-        }
+    public String modifyUser(@RequestBody User user) {
+        return userService.modifyUser(user);
     }
 
 }

@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Adatok</h1>
+    <div class="error-show" *ngIf="error">{{error}}</div>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="username" placeholder="Felhasználónév" [value]="authService.getCurrentUser().username" disabled #username>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="lastName" placeholder="Vezetéknév" [value]="authService.getCurrentUser().lastName" disabled #lastName>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="firstName" placeholder="Keresztnév" [value]="authService.getCurrentUser().firstName" disabled #firstName>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="email" name="email" placeholder="Email" [value]="authService.getCurrentUser().email" #email>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="address" placeholder="Lakhely" [value]="authService.getCurrentUser().address" #address>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="phoneNumber" placeholder="Telefonszám" [value]="authService.getCurrentUser().phoneNumber" #phoneNumber>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="accent" (click)="modifyUser(email.value, address.value, phoneNumber.value)">
+      Módosítás
+    </button>
+
+    <h1>Kölcsönzéseim</h1>
+    <table>
+      <tr>
+        <th>Jármű</th>
+        <th>Kölcsönzés kezdete</th>
+        <th>Kölcsönzés vége</th>
+        <th>Kölcsönzés lezárása</th>
+        <th>Fizetendő</th>
+        <th>Értékelés</th>
+      </tr>
+      <tr *ngFor="let rental of rentals">
+        <td>{{rental.vehicle.brand + ' (' + rental.vehicle.plate + ')'}}</td>
+        <td>{{rental.rentalStart.toString().replace(regexp, '-')}}</td>
+        <td>{{rental.rentalEnd.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.rentalClose === null"></td>
+        <td *ngIf="rental.rentalClose !== null">{{rental.rentalClose.toString().replace(regexp, '-')}}</td>
+        <td *ngIf="rental.amount !== 0">{{rental.amount}} Ft</td>
+        <td *ngIf="rental.amount === 0"></td>
+        <td *ngIf="rental.rentalClose === null"></td>
+        <td *ngIf="rental.rentalClose !== null"><button routerLink="/rating/{{rental.vehicle.id}}">Értékelem</button></td>
+      </tr>
+    </table>
+
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,23 @@
+<mat-toolbar color="accent">
+    Járműkölcsönző
+    <span class="left">
+        <button *ngIf="authService.userHasRole(['ADMIN','USER'])" mat-button routerLink="/vehicle">Járművek</button>
+        <button *ngIf="authService.userHasRole(['USER'])" mat-button routerLink="/rental">Új kölcsönzés</button>
+        <button *ngIf="authService.userHasRole(['ADMIN'])" mat-button routerLink="/addVehicle">Jármű hozzáadása</button>
+        <button *ngIf="authService.userHasRole(['ADMIN'])" mat-button routerLink="/closeRental">Kölcsönzések</button>
+    </span>
+    <span class="right">
+        <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login">
+            Bejelentkezés
+        </button>
+      <div *ngIf="authService.isLoggedIn()" >
+        <button mat-button [matMenuTriggerFor]="menu">{{authService.getCurrentUser().username}}</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/profile" *ngIf="authService.userHasRole(['USER'])">Profil</button>
+          <button mat-menu-item (click)="authService.logout()">Kijelentkezés</button>
+        </mat-menu>
+      </div>
+    </span>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

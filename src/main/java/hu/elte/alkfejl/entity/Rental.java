@@ -1,11 +1,16 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "rental")
-public class Rental {
+@AllArgsConstructor
+public class Rental implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +36,16 @@ public class Rental {
     @Column
     private int amount;
 
+    public Rental(){}
+
     public Rental(User user, Vehicle vehicle, LocalDate rentalStart, LocalDate rentalEnd) {
         this.user = user;
+        this.vehicle = vehicle;
+        this.rentalStart = rentalStart;
+        this.rentalEnd = rentalEnd;
+    }
+
+    public Rental(Vehicle vehicle, LocalDate rentalStart, LocalDate rentalEnd) {
         this.vehicle = vehicle;
         this.rentalStart = rentalStart;
         this.rentalEnd = rentalEnd;

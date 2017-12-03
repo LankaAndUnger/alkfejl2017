@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Értékelés</h1>
+    <p>Kérjük értékelje az adott járművet, hogy mennyire volt vele megelégedve a kölcsönzés során.</p>
+    <p>Ezzel az információval hozzájárulhat az általunk végzett felméréshez, amiben azt vizsgáljuk, hogy melyik járművel voltak a bérlők a legjobban megelégedve.</p>
+    <p>Köszönjük!</p>
+
+    <h2>Jármű értékelése</h2>
+    <mat-form-field color="accent">
+      <mat-select placeholder="Értékelés" #ratingInput>
+        <mat-option *ngFor="let rating of ratings" [value]="rating.id">
+          {{ rating.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="accent"
+            (click)="rateVehicle(ratingInput.value)">
+      Küldés
+    </button>
+  </mat-card-content>
+</mat-card>

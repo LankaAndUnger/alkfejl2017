@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Járművek</h1>
+    <hr>
+
+      <input type="text" id="searchInput" (keyup)="applyFilter($event.target.value)" placeholder="Keresés.." />
+    <table>
+      <tr>
+        <th>Rendszám</th>
+        <th>Márka</th>
+        <th>Típus</th>
+        <th>Évjárat</th>
+        <th>Bérleti díj</th>
+      </tr>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{vehicle.plate}}</td>
+        <td>{{vehicle.brand}}</td>
+        <td>{{vehicle.type}}</td>
+        <td>{{vehicle.vintage}}</td>
+        <td>{{vehicle.price}} Ft</td>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>

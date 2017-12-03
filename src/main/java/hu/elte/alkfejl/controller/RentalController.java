@@ -18,35 +18,32 @@ public class RentalController {
     @Autowired
     private RentalService rentalService;
 
-    @Autowired
-    private VehicleService vehicleService;
-
     @Role(User.Role.ADMIN)
     @RequestMapping(value = "/r/rentals", method = RequestMethod.GET)
-    public void rentals(Model model) {
-        List<Rental> rentals = rentalService.getAllRentals();
-        List<Vehicle> vehiclesCanBeRented = vehicleService.getAllUnrentedVehicles();
-        model.addAttribute("rentals", rentals);
-        model.addAttribute("vehicles", vehiclesCanBeRented);
+    public List<Rental> rentals() {
+        return rentalService.getAllRentals();
+    }
+
+    @Role(User.Role.USER)
+    @RequestMapping(value = "getMyRentals", method = RequestMethod.GET)
+    public List<Rental> getMyRentals() {
+        return rentalService.getCurrentUserRentals();
     }
 
     @Role(User.Role.USER)
     @RequestMapping(value = "/api/newRental", method = RequestMethod.POST)
-    public String createNewRental(@RequestParam Long vehicleId, @RequestParam String rentalStart, @RequestParam String rentalEnd) {
-        if (rentalService.createRental(vehicleId, rentalStart, rentalEnd)) {
-            return "successfully create a new rental";
-        }
-        return "unknow error";
+    public String createNewRental(@RequestBody Rental rental) {
+        return rentalService.createRental(rental);
     }
 
     @Role(User.Role.ADMIN)
     @RequestMapping(value = "/api/closeRental/{rentalId}", method = RequestMethod.POST)
     public String closeRental(@PathVariable Long rentalId){
         if (rentalService.closeRental(rentalId)) {
-            return "successfully close the rental";
+            return "";
         }
         else {
-            return "unknow error";
+            return "Hiba történt a művelet közben!";
         }
     }
 }

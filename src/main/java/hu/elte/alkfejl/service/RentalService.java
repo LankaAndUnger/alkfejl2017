@@ -1,8 +1,10 @@
 package hu.elte.alkfejl.service;
 
+import hu.elte.alkfejl.entity.Rating;
 import hu.elte.alkfejl.entity.Rental;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.entity.Vehicle;
+import hu.elte.alkfejl.repository.RatingRepository;
 import hu.elte.alkfejl.repository.RentalRepository;
 import hu.elte.alkfejl.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +28,36 @@ public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
 
-    public boolean createRental(Long vehicleId, String rentalStart, String rentalEnd) {
-        LocalDate start = createLocalDateFromString(rentalStart);
-        LocalDate end = createLocalDateFromString(rentalEnd);
+    @Autowired
+    private RatingRepository ratingRepository;
 
-        if(validateIntervall(start, end)) {
-            Vehicle vehicle = vehicleRepository.findOne(vehicleId);
-            Rental rental = new Rental(sessionService.getCurrentUser(), vehicle, start, end);
-            return (rentalRepository.save(rental) != null);
-        }
-        else {
-            return false;
+    public String createRental(Rental rental) {
+        if (rental.getRentalStart() == null || rental.getRentalEnd() == null || rental.getVehicle() == null) {
+            return "Minden mezőt kötelező kitölteni!";
+        } else {
+            LocalDate start = rental.getRentalStart().plusDays(1);
+            LocalDate end = rental.getRentalEnd().plusDays(1);
+
+            if(validateIntervall(start, end)) {
+                Rental newRental = new Rental(sessionService.getCurrentUser(), rental.getVehicle(), start, end);
+                rental.getVehicle().setRented(true);
+                vehicleRepository.save(rental.getVehicle());
+                rentalRepository.save(newRental);
+                return "";
+            }
+            else {
+                return "Hibás intervallum!";
+            }
         }
     }
 
     private LocalDate createLocalDateFromString(String date) {
         String[] dateParts = date.split("/");
-        return LocalDate.of(Integer.valueOf(dateParts[0]), Integer.valueOf(dateParts[1]), Integer.valueOf(dateParts[2]));
+        return LocalDate.of(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[1]), Integer.valueOf(dateParts[0]));
     }
 
     private boolean validateIntervall(LocalDate start, LocalDate end) {
-        return start.isBefore(end);
+        return start.isBefore(end) && !start.isBefore(LocalDate.now());
     }
 
     public List<Rental> getRentalsByUser(User currentUser) {
@@ -62,10 +73,14 @@ public class RentalService {
         rental.setRentalClose(LocalDate.now());
         int price = calculatePrice(rental);
         rental.setAmount(price);
-        return (rentalRepository.save(rental) != null);
+        rental.getVehicle().setRented(false);
+        return (rentalRepository.save(rental) != null && vehicleRepository.save(rental.getVehicle()) != null);
     }
 
     private int calculatePrice(Rental rental) {
+        if (LocalDate.now().isBefore(rental.getRentalStart())) {
+            return 0;
+        }
         int days = (int) ChronoUnit.DAYS.between(rental.getRentalStart(), rental.getRentalEnd());
         if (rental.getRentalEnd().isBefore(LocalDate.now())) {
             return (int)((days * rental.getVehicle().getPrice()) * 0.2);
@@ -73,5 +88,13 @@ public class RentalService {
         else {
             return days * rental.getVehicle().getPrice();
         }
+    }
+
+    public List<Rental> getCurrentUserRentals() {
+       return rentalRepository.findAllByUser(sessionService.getCurrentUser());
+    }
+
+    public List<Rating> getAllRatings() {
+        return ratingRepository.findAll();
     }
 }
