@@ -4,6 +4,8 @@ import hu.elte.alkfejl.entity.Rating;
 import hu.elte.alkfejl.entity.Vehicle;
 import hu.elte.alkfejl.repository.RatingRepository;
 import hu.elte.alkfejl.repository.VehicleRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +58,14 @@ public class VehicleService {
             return "Hibás évjárat!";
         }
         if (vehicle.getPrice() <= 0) {
-            return "Hibés bérleti díj!";
+            return "Hibás bérleti díj!";
+        }
+        if (Integer.toString(vehicle.getVintage()).length()!=4){
+            return "Hibás évjárat!";
+        }
+        LocalDateTime now = LocalDateTime.now();
+        if(vehicle.getVintage()>now.getYear()){
+            return "Hibás évjárat!";
         }
 
         return "";
