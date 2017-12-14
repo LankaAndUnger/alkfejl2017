@@ -8,16 +8,20 @@ import {RentalViewComponent} from '../../components/rental-view/rental-view.comp
 import {AddVehicleComponent} from '../../components/add-vehicle/add-vehicle.component';
 import {CloseRentalComponent} from '../../components/close-rental/close-rental.component';
 import {RateVehicleComponent} from '../../components/rate-vehicle/rate-vehicle.component';
+import {AuthService} from '../../services/auth.service';
+import {RouteGuardService} from '../../services/route-guard.service';
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginViewComponent },
-  { path: 'vehicle', component: VehicleViewComponent},
-  { path: 'registration', component: RegistrationViewComponent},
-  { path: 'profile', component: ProfileViewComponent},
-  { path: 'rental', component: RentalViewComponent},
-  { path: 'addVehicle', component: AddVehicleComponent},
-  { path: 'closeRental', component: CloseRentalComponent},
-  { path: 'rating/:id', component: RateVehicleComponent}
+  { path: '', canActivateChild: [RouteGuardService], children: [
+    { path: 'login', component: LoginViewComponent },
+    { path: 'vehicle', component: VehicleViewComponent, data: { roles: ['USER', 'ADMIN'] }},
+    { path: 'registration', component: RegistrationViewComponent},
+    { path: 'profile', component: ProfileViewComponent, data: { roles: ['USER'] }},
+    { path: 'rental', component: RentalViewComponent, data: { roles: ['USER'] }},
+    { path: 'addVehicle', component: AddVehicleComponent, data: { roles: ['ADMIN'] }},
+    { path: 'closeRental', component: CloseRentalComponent, data: { roles: ['ADMIN'] }},
+    { path: 'rating/:id', component: RateVehicleComponent, data: { roles: ['USER'] }}
+  ]}
 ];
 
 @NgModule({
@@ -27,6 +31,7 @@ const appRoutes: Routes = [
   exports: [
     RouterModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [RouteGuardService, AuthService]
 })
 export class AppRouterModule { }
