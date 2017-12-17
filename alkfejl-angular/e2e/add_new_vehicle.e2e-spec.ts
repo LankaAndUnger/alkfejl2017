@@ -7,7 +7,7 @@ describe('Login functionality', () => {
     element(by.css('input[type="text"]')).sendKeys('asd');
     element(by.css('input[type="password"]')).sendKeys('asd123');
     element(by.css('#Bejelentkezés')).click();
-    browser.get('/addVehicle');
+    browser.navigate('/addVehicle');
   });
 
   it('should navigate to the login page', () => {
@@ -84,6 +84,6 @@ describe('Login functionality', () => {
     element(by.css('#vintage')).sendKeys('1999');
     element(by.css('#price')).sendKeys('5000');
     element(by.buttonText('Küldés')).click();
-    expect(getPath()).toEqual('/vehicle');
+    expect(navigates('/vehicle');
   });
 });
