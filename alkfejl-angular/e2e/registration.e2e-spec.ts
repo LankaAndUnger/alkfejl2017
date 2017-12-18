@@ -3,7 +3,10 @@ import { getPath } from './getpath';
 
 describe('Login functionality', () => {
   beforeEach(() => {
-    browser.get('/registration');
+    element(by.css('input[type="text"]')).sendKeys('asd');
+    element(by.css('input[type="password"]')).sendKeys('asd123');
+    element(by.css('#Bejelentkezés')).click();
+    browser.navigate('/registration');
   });
 
   it('should navigate to the login page', () => {
