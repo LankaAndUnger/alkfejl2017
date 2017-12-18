@@ -1,7 +1,7 @@
 import { browser, by, element } from 'protractor';
 import { getPath } from './getpath';
 
-describe('Login functionality', () => {
+describe('Navigate to registration page', () => {
   beforeEach(() => {
     browser.get('/registration');
   });
