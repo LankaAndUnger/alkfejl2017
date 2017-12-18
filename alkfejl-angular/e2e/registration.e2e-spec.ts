@@ -38,7 +38,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-  
+
   it('should fail to register with invalid first name', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -49,7 +49,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-  
+
   it('should fail to register with invalid email - attempt 1', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -61,7 +61,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-    
+
     it('should fail to register with invalid email - attempt 2', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -73,7 +73,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-    
+
     it('should fail to register with invalid phone number - attempt 1', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -84,7 +84,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-  
+
   it('should fail to register with invalid phone number - attempt 2', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -96,7 +96,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-  
+
   it('should fail to register with invalid phone number - attempt 3', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -108,7 +108,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-    
+
     it('should fail to register with invalid address', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -119,7 +119,7 @@ describe('Navigate to registration page', () => {
     element(by.css('#Regisztráció')).click();
     expect(getPath()).toEqual('/registration');
   });
-  
+
   it('should accept with valid credentials', () => {
     element(by.css('#username')).sendKeys('valami');
     element(by.css('#lastName')).sendKeys('Gipsz');
@@ -129,6 +129,6 @@ describe('Navigate to registration page', () => {
     element(by.css('#phoneNumber')).sendKeys('06701112233');
     element(by.css('#address')).sendKeys('Budapest');
     element(by.css('#Regisztráció')).click();
-    expect(browser.navigate('/registration'));
+    expect(getPath()).toEqual('/registration');
   });
 });

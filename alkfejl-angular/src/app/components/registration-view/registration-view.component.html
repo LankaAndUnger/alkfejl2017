@@ -24,11 +24,11 @@
       <input matInput type="text" name="address" id="address"placeholder="Lakhely" #address>
     </mat-form-field>
     <mat-form-field color="accent">
-      <input matInput type="text" name="phoneNumber" "id="phoneNumber" placeholder="Telefonszám" #phoneNumber>
+      <input matInput type="text" name="phoneNumber" id="phoneNumber" placeholder="Telefonszám" #phoneNumber>
     </mat-form-field>
     <br>
 
-    <button mat-raised-button color="accent"
+    <button id="Regisztráció" mat-raised-button color="accent"
             (click)="tryToRegister(username.value, lastName.value, firstName.value, email.value, password.value, address.value, phoneNumber.value)">
       Regisztráció
     </button>
