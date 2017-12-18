@@ -64,4 +64,11 @@ export class AuthService {
     }
     return role.includes(AuthService.user.role);
   }
+
+  public getRole(): string {
+    if (this.isLoggedIn()) {
+      return AuthService.user.role;
+    }
+    return undefined;
+  }
 }

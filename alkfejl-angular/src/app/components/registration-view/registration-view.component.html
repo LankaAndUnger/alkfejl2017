@@ -3,28 +3,28 @@
     <h1>Regisztráció</h1>
     <div class="error-show" *ngIf="error">{{error}}</div>
     <mat-form-field color="accent">
-      <input matInput type="text" name="username" placeholder="Felhasználónév" #username>
+      <input matInput type="text" name="username" id="username" placeholder="Felhasználónév" #username>
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
-      <input matInput type="text" name="lastName" placeholder="Vezetéknév" #lastName>
+      <input matInput type="text" name="lastName" id = "lastName" placeholder="Vezetéknév" #lastName>
     </mat-form-field>
     <mat-form-field color="accent">
-      <input matInput type="text" name="firstName" placeholder="Keresztnév" #firstName>
-    </mat-form-field>
-    <br>
-    <mat-form-field color="accent">
-      <input matInput type="email" name="email" placeholder="Email" #email>
-    </mat-form-field>
-    <mat-form-field color="accent">
-      <input matInput type="password" name="password" placeholder="Jelszó" #password>
+      <input matInput type="text" name="firstName" id = "firstName" placeholder="Keresztnév" #firstName>
     </mat-form-field>
     <br>
     <mat-form-field color="accent">
-      <input matInput type="text" name="address" placeholder="Lakhely" #address>
+      <input matInput type="email" name="email" id = "email" placeholder="Email" #email>
     </mat-form-field>
     <mat-form-field color="accent">
-      <input matInput type="text" name="phoneNumber" placeholder="Telefonszám" #phoneNumber>
+      <input matInput type="password" name="password" id = "password" placeholder="Jelszó" #password>
+    </mat-form-field>
+    <br>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="address" id="address"placeholder="Lakhely" #address>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput type="text" name="phoneNumber" "id="phoneNumber" placeholder="Telefonszám" #phoneNumber>
     </mat-form-field>
     <br>
 
